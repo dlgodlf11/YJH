@@ -60,7 +60,8 @@ export default {
     endvid() {
       clearInterval(this.intvid);
       console.log("asdfsd");
-      this.$router.push("/Fifth");
+      this.$router.push("/five");
+      this.$store.commit("setScore", this.score);
     },
   },
   beforeDestroy() {
