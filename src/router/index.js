@@ -4,6 +4,7 @@ import view_one from "../views/view-one.vue";
 import view_two from "../views/view-two.vue";
 import view_three from "../views/view-three.vue";
 import view_four from "../views/view-four.vue";
+import view_five from "../views/view-five.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes = [
     path: "/four",
     name: "view-four",
     component: view_four,
+  },
+  {
+    path: "/five",
+    name: "view-five",
+    component: view_five,
   },
 ];
 
