@@ -2,7 +2,14 @@
   <v-container class="fill-height" fluid>
     <v-row align="center" justify="center">
       <video autoplay="true" id="video" width="640" height="362"></video>
-      <video class="video-stream" src="../videos/정국.mp4" type="video/mp4" id="video2" width="640" height="362"></video>
+      <video
+        class="video-stream"
+        type="video/mp4"
+        id="video2"
+        width="640"
+        height="362"
+        crossorigin="anonymous"
+      ></video>
       <canvas id="output" />
       <canvas id="output2" />
     </v-row>
@@ -32,13 +39,20 @@ export default {
       intvid: "",
       score: 0,
       show: false,
-      net: undefined,
+      net: undefined
     };
   },
   async mounted() {
-    document.getElementById("video2").addEventListener("ended", this.endvid, false);
+    document
+      .getElementById("video2")
+      .addEventListener("ended", this.endvid, false);
     setupCamera(document.getElementById("video"));
     this.net = await posenet.load();
+    var storageRef = firebase.storage().ref("junggok.mp4");
+    storageRef.getDownloadURL().then(function(url) {
+      document.getElementById("video2").src = url;
+      console.log(url);
+    });
   },
   methods: {
     async start() {
@@ -62,12 +76,12 @@ export default {
       console.log("asdfsd");
       this.$router.push("/five");
       this.$store.commit("setScore", this.score);
-    },
+    }
   },
   beforeDestroy() {
     console.log("끝");
     clearInterval(this.intvid);
-  },
+  }
 };
 </script>
 <style>

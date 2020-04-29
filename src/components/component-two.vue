@@ -1,5 +1,10 @@
 <template>
-  <v-container id="container" class="fill-height" fluid v-bind:style="{ backgroundImage: 'url(' + background + ')' }">
+  <v-container
+    id="container"
+    class="fill-height"
+    fluid
+    v-bind:style="{ backgroundImage: 'url(' + background + ')' }"
+  >
     <v-row align="center" justify="center">
       <v-carousel v-model="itemindex" @change="onchange">
         <v-carousel-item v-for="(item, i) in items" :key="i" :src="item.src" v-on:click="onclick">
@@ -21,29 +26,29 @@ export default {
       items: [
         {
           src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
-          name: "다람쥐",
+          name: "다람쥐"
         },
         {
           src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
-          name: "하늘",
+          name: "하늘"
         },
         {
           src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
-          name: "새",
+          name: "새"
         },
         {
           src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
-          name: "행성",
-        },
+          name: "행성"
+        }
       ],
-      background: "",
+      background: ""
     };
   },
   computed: {
     UpdateData() {
       //items = axios.post(어쩌고저쩌고)
       console.log("dpfsdpfpsdf", this.itemindex);
-    },
+    }
   },
   methods: {
     onclick() {
@@ -52,10 +57,11 @@ export default {
       this.$router.push("/three");
     },
     onchange(e) {
+      console.log();
       console.log("asdf", this.items[e].name);
       this.background = this.items[e].src;
-    },
-  },
+    }
+  }
 };
 </script>
 
