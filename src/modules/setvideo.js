@@ -1,6 +1,7 @@
 import { isMobile } from "./util";
 async function setupCamera(video) {
   const mobile = isMobile();
+
   const stream = await navigator.mediaDevices.getUserMedia({
     audio: false,
     video: {

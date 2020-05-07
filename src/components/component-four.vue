@@ -4,11 +4,13 @@
       <video autoplay="true" id="video" width="640" height="362"></video>
       <video
         class="video-stream"
+        src="../videos/junggok.mp4"
         type="video/mp4"
         id="video2"
         width="640"
         height="362"
         crossorigin="anonymous"
+        muted
       ></video>
       <canvas id="output" />
       <canvas id="output2" />
@@ -23,36 +25,35 @@
         </div>
       </transition>
     </v-row>
-    {{ msg }}
   </v-container>
 </template>
 
 <script>
 import setupCamera from "../modules/setvideo";
 import estimator from "../modules/estimator";
+import checkpose from "../modules/checkpose";
+
 export default {
   data() {
     return {
       msg: "no error",
-      poses: "",
+      pose: "",
       refpose: "",
       intvid: "",
       score: 0,
       show: false,
-      net: undefined
+      net: undefined,
     };
   },
   async mounted() {
-    document
-      .getElementById("video2")
-      .addEventListener("ended", this.endvid, false);
+    document.getElementById("video2").addEventListener("ended", this.endvid, false);
     setupCamera(document.getElementById("video"));
     this.net = await posenet.load();
-    var storageRef = firebase.storage().ref("junggok.mp4");
-    storageRef.getDownloadURL().then(function(url) {
-      document.getElementById("video2").src = url;
-      console.log(url);
-    });
+    // var storageRef = firebase.storage().ref("junggok.mp4");
+    // storageRef.getDownloadURL().then(function(url) {
+    //   document.getElementById("video2").src = url;
+    //   console.log(url);
+    // });
   },
   methods: {
     async start() {
@@ -66,22 +67,25 @@ export default {
     async check() {
       estimator(this.net, (pose_user, pose_ref) => {
         //console.log(pose_user, pose_ref);
+        this.pose = pose_user;
+        this.refpose = pose_ref;
         if (this.show == true) this.show = false;
         else this.show = true;
       });
-      this.score += 1;
+
+      this.score += checkpose(this.pose, this.refpose);
     },
     endvid() {
       clearInterval(this.intvid);
       console.log("asdfsd");
       this.$router.push("/five");
       this.$store.commit("setScore", this.score);
-    }
+    },
   },
   beforeDestroy() {
     console.log("끝");
     clearInterval(this.intvid);
-  }
+  },
 };
 </script>
 <style>
