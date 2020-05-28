@@ -20,12 +20,15 @@ function checkpose(pose_u, pose_r) {
       alldis += Math.abs(Math.abs(angle_u) - Math.abs(angle_r));
     }
   }
-
-  console.log(alldis, detectparts);
+  alldis = alldis * 100;
+  if (alldis > 200) {
+    alldis = 200;
+  }
+  //console.log(alldis, detectparts);
   if (detectparts > 4) {
-    return Math.round((200 - alldis) * 10);
+    return Math.round(200 - alldis) * 2;
   } else {
-    return 1;
+    return 0;
   }
 }
 function getangle(from, to) {

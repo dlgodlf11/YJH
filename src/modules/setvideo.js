@@ -7,7 +7,7 @@ async function setupCamera(video) {
     video: {
       facingMode: "environment",
       width: mobile ? undefined : video.width,
-      height: mobile ? undefined : video.height,
+      height: mobile ? undefined : (video.width / 16) * 9,
     },
   });
   video.srcObject = stream;

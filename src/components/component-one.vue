@@ -1,28 +1,29 @@
 <template>
-  <v-container class="fill-height">
-    <v-row align="center" justify="center">
-      <h1 class="popups-enter-active">The Choom</h1>
-      {{ showbtn }}
-    </v-row>
-    <v-row align="center" justify="center">
-      <transition name="puff">
-        <v-btn class="jello-horizontal" v-if="show" x-large dark @click="onclick">start</v-btn>
-      </transition>
-      {{ showbtn }}
-    </v-row>
-  </v-container>
+  <v-content>
+    <v-container class="fill-height">
+      <v-row align="center" justify="center">
+        <h1 class="popups-enter-active choom">The Choom</h1>
+      </v-row>
+      <v-row align="center" justify="center">
+        <transition name="puff">
+          <v-btn class="jello-horizontal" v-if="show" x-large dark @click="onclick">start</v-btn>
+        </transition>
+        {{ showbtn }}
+      </v-row>
+    </v-container>
+  </v-content>
 </template>
 <script>
 export default {
   data() {
     return {
-      show: false,
+      show: false
     };
   },
   computed: {
     showbtn() {
       this.show = true;
-    },
+    }
   },
   methods: {
     onclick() {
@@ -30,8 +31,8 @@ export default {
       setTimeout(() => {
         this.$router.push("/two");
       }, 300);
-    },
-  },
+    }
+  }
 };
 </script>
 <style>
@@ -68,7 +69,8 @@ export default {
 .popups-enter-active {
   font-size: min(10vw, 130px);
   text-align: center;
-  animation: text-pop-up-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite alternate both;
+  animation: text-pop-up-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite
+    alternate both;
 }
 @keyframes text-pop-up-top {
   0% {
@@ -79,8 +81,9 @@ export default {
   100% {
     transform: translateY(-50px);
     transform-origin: 50% 50%;
-    text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc,
-      0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc,
+      0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc,
+      0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
   }
 }
 .jello-horizontal {
@@ -108,5 +111,8 @@ export default {
   30% {
     transform: scale3d(1, 1, 1);
   }
+}
+.choom {
+  margin-top: 150px;
 }
 </style>

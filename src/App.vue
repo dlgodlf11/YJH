@@ -1,18 +1,20 @@
 <template>
-  <v-app class="bg-pan-left" style="background: linear-gradient(270deg, #cc6aa5, #3e91cc, #2dcca7); background-size:600% 100%">
-    <v-app-bar app clipped-left color="black">
+  <!-- <v-app
+    class="bg-pan-left"
+    style="background: linear-gradient(270deg, #cc6aa5, #3e91cc, #2dcca7); background-size:600% 100%"
+  >-->
+  <v-app id="apps">
+    <!-- <v-app-bar app clipped-left color="black">
       <v-toolbar-side-icon name="logo">
         <v-img :src="require('./assets/swrv_logo.png')" class="mr-3" height="30px" width="30px" />
       </v-toolbar-side-icon>
       <router-link id="toolbar_title" to="/">
         <v-toolbar-title>SWRV</v-toolbar-title>
       </router-link>
-    </v-app-bar>
-    <v-content>
-      <transition name="fade" mode="out-in">
-        <router-view />
-      </transition>
-    </v-content>
+    </v-app-bar>-->
+    <transition name="fade" mode="out-in">
+      <router-view />
+    </transition>
   </v-app>
 </template>
 
@@ -23,7 +25,7 @@ export default {
   }),
   created() {
     this.$vuetify.theme.dark = true;
-  },
+  }
 };
 </script>
 
@@ -62,5 +64,9 @@ export default {
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
+}
+#apps {
+  background-image: url("./assets/imgs/back.jpg");
+  background-size: 120%;
 }
 </style>

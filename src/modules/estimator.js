@@ -1,5 +1,29 @@
-import { drawKeypoints, drawSkeleton } from "./util";
-async function process(net, callback) {
+async function estimate(net, callback) {
+  const cam_video = document.getElementById("video");
+
+  async function poseDetectionFrame(video) {
+    let poses = [];
+
+    const pose = await net.estimatePoses(video, {
+      flipHorizontal: false,
+      decodingMethod: "single-person",
+    });
+    poses = poses.concat(pose);
+
+    return poses;
+  }
+
+  poseDetectionFrame(cam_video).then(function(pose_user) {
+    callback(pose_user);
+  });
+  //원래는 밑에껄로 해야함
+  // poseDetectionFrame(cam_video).then(function(pose_user) {
+  //   poseDetectionFrame(ref_video).then(function(pose_ref) {
+  //     callback(pose_user, pose_ref);
+  //   });
+  // });
+}
+export async function process(net, callback) {
   const cam_video = document.getElementById("video");
   //const cam_result = document.getElementById("output");
 
@@ -54,7 +78,7 @@ async function process(net, callback) {
     //requestAnimationFrame(poseDetectionFrame);
   }
 
-  poseDetectionFrame(ref_video).then(function(pose_user) {
+  poseDetectionFrame(cam_video).then(function(pose_user) {
     poseDetectionFrame(ref_video).then(function(pose_ref) {
       callback(pose_user, pose_ref);
     });
@@ -66,4 +90,5 @@ async function process(net, callback) {
   //   });
   // });
 }
-export default process;
+
+export default estimate;

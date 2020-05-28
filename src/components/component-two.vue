@@ -1,92 +1,106 @@
 <template>
-  <v-container id="container" class="fill-height" fluid v-bind:style="{ backgroundImage: 'url(' + background + ')' }">
-    <v-row align="center" justify="center" v-if="!show">
-      <v-progress-circular :size="130" :width="13" color="white" indeterminate>Loading..</v-progress-circular>
-    </v-row>
-    <v-row align="center" justify="center">
-      <v-carousel v-model="itemindex" @change="onchange" v-if="show">
-        <v-carousel-item v-for="(item, i) in items" :key="i" :src="item.src" v-on:click="onclick">
-          <v-row class="fill-height" align="center" justify="center">
-            <div class="display-3">{{ item.name }}</div>
+  <v-content
+    class="ap"
+    column
+    align-center
+    justify-center
+    :style="{ backgroundImage: 'url(' + background_url + ')',backgroundSize:'100%',backgroundPosition: 'center center', backgroundcolor:'rgba(255,0,0,0.3)'}"
+  >
+    <v-container class="fill-height" fluid style="background-color:rgba(255,255,255,0.4)">
+      <v-row align="center" justify="center">
+        <v-slide-group v-model="model" class="pa-4" center-active mandatory @change="changes">
+          <v-row align="center" justify="center">
+            <v-slide-item v-for="n in items" :key="n.num" v-slot:default="{ active, toggle }">
+              <v-col class="pa-0">
+                <v-card
+                  height="15vw"
+                  width="15vw"
+                  :class="active ? 'imageleft1' : ''"
+                  @click="toggle"
+                  v-bind:style="{ backgroundImage: 'url(' + n.src + ')',backgroundSize:'100%', opacity:0.7}"
+                >
+                  <v-row v-if="active" class="fill-height" align="end" justify="center">asdfasdfasdf</v-row>
+                </v-card>
+              </v-col>
+            </v-slide-item>
           </v-row>
-        </v-carousel-item>
-      </v-carousel>
-    </v-row>
-  </v-container>
+        </v-slide-group>
+      </v-row>
+    </v-container>
+  </v-content>
 </template>
 
 <script>
-import axios from "axios";
 export default {
   data() {
     return {
-      itemindex: "",
+      model: "",
+      background_url: "",
       items: [
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
-          name: "다람쥐",
+          num: 0,
+          src: require("../assets/imgs/test1.jpg")
         },
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
-          name: "하늘",
+          num: 1,
+
+          src: require("../assets/imgs/test2.jpg")
         },
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
-          name: "새",
+          num: 2,
+
+          src: require("../assets/imgs/test3.jpg")
         },
         {
-          src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
-          name: "행성",
+          num: 3,
+
+          src: require("../assets/imgs/test4.jpg")
         },
-      ],
-      background: "",
-      show: false,
+        {
+          num: 4,
+
+          src: require("../assets/imgs/test5.jpg")
+        },
+        {
+          num: 5,
+
+          src: require("../assets/imgs/test6.jpg")
+        },
+        {
+          num: 6,
+          src: require("../assets/imgs/test1.jpg")
+        },
+        {
+          num: 7,
+          src: require("../assets/imgs/test1.jpg")
+        },
+        {
+          num: 8,
+          src: require("../assets/imgs/test1.jpg")
+        }
+      ]
     };
   },
-  async mounted() {
-    //items = axios.post(어쩌고저쩌고)
-    var storageRef = firebase.storage().ref();
-    var listRef = storageRef.child("musics");
-    var refs = [];
-    await listRef.listAll().then(async function(res) {
-      while (res.items.length) {
-        var item = res.items.pop();
-        var name = item.name.split(".")[0];
-        await item.getDownloadURL().then(function(url) {
-          refs.push({ src: url, name: name });
-        });
-      }
-    });
-    this.items = refs;
-    this.show = await true;
-  },
   methods: {
-    onclick() {
-      console.log(this.items[this.itemindex]);
-      this.$store.commit("setMusicName", this.items[this.itemindex].name);
-      this.$router.push("/three");
-    },
-    onchange(e) {
-      console.log();
-      console.log("asdf", this.items[e].name);
-      this.background = this.items[e].src;
-    },
-  },
+    changes() {
+      console.log(this.model);
+      this.background_url = this.items[this.model].src;
+    }
+  }
 };
 </script>
-
 <style>
-#innerbtn {
-  font-size: min(3vw, 50px);
-  width: 100%;
-  height: 100%;
+.imageleft1 {
+  animation: slide-fwd-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
-#container {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-#carousel {
-  opacity: 1;
+@keyframes slide-fwd-center {
+  0% {
+    height: 15vw;
+    opacity: 0.7;
+  }
+  100% {
+    height: 20vw;
+    opacity: 1;
+  }
 }
 </style>
